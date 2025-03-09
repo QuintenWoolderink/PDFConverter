@@ -1,11 +1,12 @@
-import markdown
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image
-from docx import Document
-import tempfile
 import os
-from docx.shared import Inches
+import tempfile
+import markdown
+from docx import Document
+from PIL import Image as PILImage
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image
+from reportlab.lib.styles import getSampleStyleSheet
 
 def md_to_pdf(input_file, output_file, font="Helvetica", page_size=letter):
     story = []
@@ -26,10 +27,25 @@ def md_to_pdf(input_file, output_file, font="Helvetica", page_size=letter):
                     img_path = os.path.join(temp_dir, os.path.basename(rel.target_ref))
                     with open(img_path, "wb") as img_file:
                         img_file.write(rel.target_part.blob)
-                    img = Image(img_path)
-                    img.drawWidth = 7 * 72  # 4 inches
-                    img.drawHeight = 6 * 72  # 3 inches
+
+                    pil_img = PILImage.open(img_path)
+                    img_width, img_height = pil_img.size
+                    max_width, max_height = 7 * inch, 6 * inch  # 7 inches by 6 inches
+
+                    if img_width > max_width or img_height > max_height:
+                        aspect_ratio = img_width / img_height
+                        if img_width > img_height:
+                            img_width = max_width
+                            img_height = max_width / aspect_ratio
+                        else:
+                            img_height = max_height
+                            img_width = max_height * aspect_ratio
+                        img = Image(img_path, width=img_width, height=img_height)
+                    else:
+                        img = Image(img_path, width=img_width, height=img_height)
+
                     story.append(img)
+                    pil_img.close()  # Ensure the image file is closed
         elif input_file.endswith(".txt"):
             with open(input_file, "r", encoding="utf-8") as f:
                 text = f.read()
