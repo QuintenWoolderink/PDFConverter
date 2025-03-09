@@ -11,3 +11,4 @@ you will need to install some things
 go to cmd or powershell and do a
 - pip install python
 - pip install python-docx
+- pip install docx2txt
