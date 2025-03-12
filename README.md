@@ -8,7 +8,8 @@ the example.txt in the line of code needs to be changed to the name of the folde
 example.docx can be .docx if it is a .docx file if it is a .md file you need to use example.md
 
 you will need to install some things
-go to cmd or powershell and do a
+cd to the folder location and go to cmd or powershell and do a
 - pip install python
 - pip install python-docx
 - pip install docx2txt
+- pip install requirements.txt
