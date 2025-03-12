@@ -9,7 +9,9 @@ example.docx can be .docx if it is a .docx file if it is a .md file you need to 
 
 you will need to install some things
 - install python
+
 go to cmd or powershell cd to the folder location and do a
+
 - pip install python-docx
 - pip install docx2txt
 - pip install requirements.txt
