@@ -14,4 +14,4 @@ go to cmd or powershell cd to the folder location and do a
 
 - pip install python-docx
 - pip install docx2txt
-- pip install requirements.txt
+- pip install -r requirements.txt
